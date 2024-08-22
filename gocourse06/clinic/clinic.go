@@ -1,5 +1,7 @@
 package clinic
 
+import "sync"
+
 type Patient struct {
 	ID        string `json:"id"`
 	Name      string `json:"name"`
@@ -9,6 +11,7 @@ type Patient struct {
 
 type Clinic struct {
 	patients map[string]Patient
+	mu       sync.Mutex
 }
 
 func NewClinic() *Clinic {
@@ -18,10 +21,14 @@ func NewClinic() *Clinic {
 }
 
 func (c *Clinic) AddPatient(p Patient) {
+	c.mu.Lock()
+	defer c.mu.Unlock()
 	c.patients[p.ID] = p
 }
 
 func (c *Clinic) Patient(id string) (Patient, bool) {
+	c.mu.Lock()
+	defer c.mu.Unlock()
 	p, exists := c.patients[id]
 	return p, exists
 }
