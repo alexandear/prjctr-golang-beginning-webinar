@@ -38,4 +38,5 @@ func (c *Clinic) Patients() map[string]Patient {
 }
 
 func (c *Clinic) ForcedLock() {
+	c.mu.Lock()
 }

@@ -37,6 +37,40 @@ func main() {
 	for range bloodTypes {
 		fmt.Println(<-ch)
 	}
+
+	addPatientChan := make(chan clinic.Patient)
+	getPatientChan := make(chan string)
+	quitChan := make(chan bool)
+
+	go func() {
+		for {
+			select {
+			case p := <-addPatientChan:
+				c.AddPatient(p)
+			case id := <-getPatientChan:
+				patient, exists := c.Patient(id)
+				if exists {
+					fmt.Printf("Patient retrieved: %s, Age: %d, BloodType: %s\n", patient.Name, patient.Age, patient.BloodType)
+				} else {
+					fmt.Printf("Patient not found with ID: %s", id)
+					return
+				}
+			case <-quitChan:
+				fmt.Println("Clinic closed.")
+				return
+			}
+		}
+	}()
+
+	addPatientChan <- clinic.Patient{"1", "Mike Doe", 35, "A+"}
+	addPatientChan <- clinic.Patient{"2", "Mika Smith", 20, "O-"}
+	// c.ForcedLock()
+	addPatientChan <- clinic.Patient{"3", "Mika Smith", 33, "AO-"}
+
+	getPatientChan <- "1"
+	getPatientChan <- "3"
+
+	quitChan <- true
 }
 
 func processBloodType(bloodType string, ch chan<- string, sec int) {
