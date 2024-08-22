@@ -2,57 +2,28 @@ package main
 
 import (
 	"fmt"
-	"math/rand/v2"
 	"sync"
-	"time"
+
+	"github.com/alexandear/prjctr-golang-beginning-webinar/gocourse06/clinic"
 )
 
-func task1() {
-	s := time.Duration((rand.N(300))+100) * time.Millisecond
-	fmt.Println("Task 1 sleeping for", s)
-	time.Sleep(s)
-	fmt.Println("Task 1")
-}
-
-func task2() {
-	s := time.Duration((rand.N(300))+100) * time.Millisecond
-	fmt.Println("Task 2 sleeping for", s)
-	time.Sleep(s)
-	fmt.Println("Task 2")
-}
-
-func task3() {
-	s := time.Duration((rand.N(300))+100) * time.Millisecond
-	fmt.Println("Task 3 sleeping for", s)
-	time.Sleep(s)
-	fmt.Println("Task 3")
-}
-
 func main() {
-	now := time.Now()
+	c := clinic.NewClinic()
+	patients := []clinic.Patient{
+		{"1", "John Doe", 30, "A+"},
+		{"2", "Jane Smith", 25, "O-"},
+		{"3", "Will Smith", 50, "C-"},
+	}
 
 	var wg sync.WaitGroup
-
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
-		task1()
-	}()
-
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
-		task2()
-	}()
-
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
-		task3()
-	}()
-
+	for _, p := range patients {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			c.AddPatient(p)
+			fmt.Printf("Patient added: %s\n", p.Name)
+		}()
+	}
 	wg.Wait()
-
-	elapsed := time.Since(now)
-	fmt.Println("Elapsed:", elapsed)
+	fmt.Printf("%d patients added to the clinic.\n", len(c.Patients()))
 }
