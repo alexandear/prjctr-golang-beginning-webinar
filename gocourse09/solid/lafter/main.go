@@ -1,4 +1,4 @@
-// The program follows the Liskov Substitutions Principle from SOLID.
+// The program follows the Liskov Substitution Principle from SOLID.
 
 package main
 
