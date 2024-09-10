@@ -6,7 +6,7 @@ type option struct {
 	cheese string
 }
 
-type Option func(*option)
+type Option func(opt *option)
 
 func WithDough(dough string) Option {
 	return func(o *option) {
