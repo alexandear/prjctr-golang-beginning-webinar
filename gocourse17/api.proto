@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package patient;
+
+option go_package = "prjctr.com/gocourse17/grpcapi";
+
+service PatientService {
+  rpc AddPatient(AddPatientRequest) returns (AddPatientResponse);
+  rpc GetPatient(GetPatientRequest) returns (GetPatientResponse);
+  rpc UpdatePatient(UpdatePatientRequest) returns (UpdatePatientResponse);
+}
+
+message AddPatientRequest {
+  Patient patient = 1;
+}
+
+message AddPatientResponse {
+  string message = 1;
+}
+
+message GetPatientRequest {
+  string id = 1;
+}
+
+message GetPatientResponse {
+  Patient patient = 1;
+}
+
+message UpdatePatientRequest {
+  Patient patient = 1;
+}
+
+message UpdatePatientResponse {
+  string message = 1;
+}
+
+message Patient {
+  string id = 1;
+  string name = 2;
+  string age = 3;
+  string diagnosis = 4;
+}
