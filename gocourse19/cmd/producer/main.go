@@ -19,7 +19,6 @@ func main() {
 
 	for _, p := range pp.Producers() {
 		if err := p.Push(
-			context.Background(),
 			"key-product",
 			[]byte(`{"someField1": "Some Value 1"}`),
 		); err != nil {
@@ -27,7 +26,6 @@ func main() {
 		}
 
 		if err := p.Push(
-			context.Background(),
 			"key-brand",
 			[]byte(`{"someField2": "Some Value 2"}`),
 		); err != nil {

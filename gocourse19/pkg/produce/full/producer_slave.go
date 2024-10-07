@@ -160,7 +160,7 @@ func (s *Slave) listenFlow(_ context.Context) {
 	}
 }
 
-func (s *Slave) Push(_ context.Context, rk string, body []byte) error {
+func (s *Slave) Push(rk string, body []byte) error {
 	tm := time.NewTicker(resendDelay)
 	defer tm.Stop()
 
