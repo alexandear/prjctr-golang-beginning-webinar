@@ -73,11 +73,11 @@ func (s *Slave) init(ctx context.Context) error {
 }
 
 func (s *Slave) declarationAndBinding(_ context.Context, ch *amqp.Channel) (err error) {
-	queues := []string{`q1`, `q2`, `q3`}
+	queues := []string{"q1", "q2", "q3"}
 	queuesEntities := map[string][]string{
-		`q1`: {`product`, `brand`},
-		`q2`: {`category`},
-		`q3`: {`product`, `attribute`},
+		"q1": {"product", "brand"},
+		"q2": {"category"},
+		"q3": {"product", "attribute"},
 	}
 
 	for _, qName := range queues {

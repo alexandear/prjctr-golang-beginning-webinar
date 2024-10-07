@@ -14,10 +14,10 @@ func main() {
 		context.Background(),
 		1,
 		2,
-		`q4`,
-		`amqp://localhost`,
-		`guest`,
-		`guest`,
+		"q4",
+		"amqp://localhost",
+		"guest",
+		"guest",
 	)
 
 	for _, c := range cp.Consumers() {
