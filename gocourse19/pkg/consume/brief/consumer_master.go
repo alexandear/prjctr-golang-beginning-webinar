@@ -4,8 +4,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/streadway/amqp"
 	"log"
+
+	"github.com/streadway/amqp"
 )
 
 type Master struct {
@@ -33,7 +34,6 @@ func (s *Master) connect(_ context.Context, busHost, busUser, busPass string) er
 	conn, err := amqp.DialConfig(busHost, amqp.Config{
 		SASL: []amqp.Authentication{&amqp.PlainAuth{busUser, busPass}},
 	})
-
 	if err != nil {
 		return err
 	}

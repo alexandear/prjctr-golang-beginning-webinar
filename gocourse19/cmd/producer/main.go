@@ -2,8 +2,9 @@ package main
 
 import (
 	"context"
-	"gocourse19/pkg/produce"
 	"log"
+
+	"gocourse19/pkg/produce"
 )
 
 func main() {

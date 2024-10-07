@@ -2,9 +2,10 @@ package produce
 
 import (
 	"context"
-	p "gocourse19/pkg/produce/full"
 	"log"
 	"time"
+
+	p "gocourse19/pkg/produce/full"
 )
 
 type Pool struct {

@@ -4,9 +4,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/streadway/amqp"
 	"log"
 	"time"
+
+	"github.com/streadway/amqp"
 )
 
 const (
@@ -49,7 +50,6 @@ func (s *Slave) handleReInit(ctx context.Context) bool {
 		s.IsReady = false
 
 		err := s.init(ctx)
-
 		if err != nil {
 			log.Println("Producer: failed to initialize channel (%s). Retrying...", err)
 
@@ -186,7 +186,6 @@ func (s *Slave) Push(_ context.Context, rk string, body []byte) error {
 		}
 
 		err := s.UnsafePush(rk, body)
-
 		if err != nil {
 			log.Println("Producer: Push failed: %s. (%s) Retrying...", err, rk)
 			select {

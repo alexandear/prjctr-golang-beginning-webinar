@@ -3,9 +3,10 @@ package main
 import (
 	"context"
 	"encoding/json"
-	"gocourse19/pkg/consume"
 	"log"
 	"time"
+
+	"gocourse19/pkg/consume"
 )
 
 func main() {

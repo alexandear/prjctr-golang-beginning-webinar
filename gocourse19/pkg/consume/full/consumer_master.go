@@ -4,9 +4,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/streadway/amqp"
 	"log"
 	"time"
+
+	"github.com/streadway/amqp"
 )
 
 const (
@@ -61,7 +62,6 @@ func (s *Master) connect(ctx context.Context, busHost, busUser, busPass string) 
 	conn, err := amqp.DialConfig(busHost, amqp.Config{
 		SASL: []amqp.Authentication{&amqp.PlainAuth{busUser, busPass}},
 	})
-
 	if err != nil {
 		return err
 	}

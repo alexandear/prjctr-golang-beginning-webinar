@@ -4,10 +4,11 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/streadway/amqp"
 	"log"
 	"sync"
 	"time"
+
+	"github.com/streadway/amqp"
 )
 
 const (
@@ -15,9 +16,7 @@ const (
 	reInitDelay           = 2 * time.Second
 )
 
-var (
-	errNotConnected = errors.New("Consumer: not connected to the server")
-)
+var errNotConnected = errors.New("Consumer: not connected to the server")
 
 type Slave struct {
 	master          *Master
@@ -52,7 +51,6 @@ func (s *Slave) handleReInit(ctx context.Context) bool {
 		s.IsDeliveryReady = false
 
 		err := s.init(ctx)
-
 		if err != nil {
 			log.Println("Consumer: failed to initialize channel (%s). Retrying...", err)
 

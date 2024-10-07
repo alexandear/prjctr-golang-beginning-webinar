@@ -2,9 +2,10 @@ package consume
 
 import (
 	"context"
-	c "gocourse19/pkg/consume/full"
 	"log"
 	"time"
+
+	c "gocourse19/pkg/consume/full"
 )
 
 type Pool struct {

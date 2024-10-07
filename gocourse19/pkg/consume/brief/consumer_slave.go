@@ -4,19 +4,18 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/streadway/amqp"
 	"log"
 	"sync"
 	"time"
+
+	"github.com/streadway/amqp"
 )
 
 const (
 	ChannelReconnectDelay = 5 * time.Second
 )
 
-var (
-	errNotConnected = errors.New("consumer: not connected to the server")
-)
+var errNotConnected = errors.New("consumer: not connected to the server")
 
 type Slave struct {
 	master          *Master
