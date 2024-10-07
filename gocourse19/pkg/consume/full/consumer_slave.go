@@ -51,7 +51,7 @@ func (s *Slave) handleReInit(ctx context.Context) bool {
 
 		err := s.init(ctx)
 		if err != nil {
-			log.Println("Consumer: failed to initialize channel (%s). Retrying...", err)
+			log.Printf("Consumer: failed to initialize channel (%s). Retrying...\n", err)
 
 			select {
 			case <-s.done:
@@ -63,7 +63,7 @@ func (s *Slave) handleReInit(ctx context.Context) bool {
 
 		err = s.InitStream(ctx)
 		if err != nil {
-			log.Println("Consumer: stream not inited: %s", err)
+			log.Printf("Consumer: stream not inited: %s\n", err)
 		}
 
 		select {

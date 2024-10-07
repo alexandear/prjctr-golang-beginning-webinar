@@ -51,7 +51,7 @@ func (s *Slave) handleReInit(ctx context.Context) bool {
 
 		err := s.init(ctx)
 		if err != nil {
-			log.Println("Producer: failed to initialize channel (%s). Retrying...", err)
+			log.Printf("Producer: failed to initialize channel (%s). Retrying...\n", err)
 
 			select {
 			case <-s.master.done:
@@ -152,7 +152,7 @@ func (s *Slave) listenFlow(_ context.Context) {
 	for {
 		select {
 		case res, ok := <-s.notifyFlow:
-			log.Println("Producer: receive notifyFlow = %v, is closed = %v", res, ok)
+			log.Printf("Producer: receive notifyFlow = %v, is closed = %v\n", res, ok)
 			if !ok {
 				return
 			}
@@ -187,13 +187,13 @@ func (s *Slave) Push(_ context.Context, rk string, body []byte) error {
 
 		err := s.UnsafePush(rk, body)
 		if err != nil {
-			log.Println("Producer: Push failed: %s. (%s) Retrying...", err, rk)
+			log.Printf("Producer: Push failed: %s. (%s) Retrying...\n", err, rk)
 			select {
 			case <-s.master.done:
-				log.Println("receive done signal from master %s", rk)
+				log.Printf("receive done signal from master %s\n", rk)
 				return errShutdown
 			case <-s.done:
-				log.Println("receive done signal %s", rk)
+				log.Printf("receive done signal %s\n", rk)
 				return errShutdown
 			case <-tm.C:
 			}
@@ -207,19 +207,19 @@ func (s *Slave) Push(_ context.Context, rk string, body []byte) error {
 			select {
 			case confirm := <-s.notifyConfirm:
 				if confirm.Ack {
-					log.Println("Producer: published successfully into %s", rk)
+					log.Printf("Producer: published successfully into %s\n", rk)
 					return nil
 				} else {
-					log.Println("producxer_slave, NOT Acked to %s", rk)
+					log.Printf("producer_slave, NOT Acked to %s\n", rk)
 				}
 			case <-s.master.done:
-				log.Println("receive done signal from master to %s", rk)
+				log.Printf("receive done signal from master to %s\n", rk)
 				return nil
 			case <-s.done:
-				log.Println("receive done signal to %s", rk)
+				log.Printf("receive done signal to %s", rk)
 				return nil
 			case <-tm.C:
-				log.Println("producer_slave, relisten to %s", rk)
+				log.Printf("producer_slave, relisten to %s\n", rk)
 			}
 			if s.master.connection.IsClosed() {
 				return errConnNotReady
@@ -228,7 +228,7 @@ func (s *Slave) Push(_ context.Context, rk string, body []byte) error {
 				return fmt.Errorf("producer: failed to confirm to %s", rk)
 			} else {
 				retries++
-				log.Println("Producer: failed to confirm. Retrying... to %s", rk)
+				log.Printf("Producer: failed to confirm. Retrying... to %s\n", rk)
 			}
 		}
 	}

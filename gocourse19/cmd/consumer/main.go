@@ -28,7 +28,7 @@ func main() {
 		for {
 			for {
 				if !c.IsDeliveryReady {
-					log.Println(`Waiting...`)
+					log.Println("Waiting...")
 					time.Sleep(cp.ChannelReconnectDelay())
 				} else {
 					break

@@ -38,7 +38,7 @@ func (s *Master) handleReconnect(ctx context.Context, busHost, busUser, busPass 
 
 		err := s.connect(ctx, busHost, busUser, busPass)
 		if err != nil {
-			log.Println("consumer: failed to connect (%s). Retrying...", err.Error())
+			log.Printf("Consumer: failed to connect (%s). Retrying...\n", err)
 
 			select {
 			case <-s.done:
