@@ -101,7 +101,7 @@ func (s *Slave) declarationAndBinding(_ context.Context, ch *amqp.Channel) (err 
 
 func (s *Slave) Push(rk string, body []byte) error {
 	if !s.IsReady {
-		return errors.New(fmt.Sprintf("Producer: connection not ready"))
+		return errors.New("producer: connection not ready")
 	}
 
 	return s.channel.Publish(
@@ -120,7 +120,7 @@ func (s *Slave) Push(rk string, body []byte) error {
 
 func (s *Slave) Close() error {
 	if !s.IsReady {
-		return errors.New(fmt.Sprintf("Producer: channel not ready while closing"))
+		return errors.New("Producer: channel not ready while closing")
 	}
 	err := s.channel.Close()
 	if err != nil {

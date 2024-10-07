@@ -3,7 +3,6 @@ package full
 import (
 	"context"
 	"errors"
-	"fmt"
 	"log"
 	"sync"
 	"time"
@@ -16,7 +15,7 @@ const (
 	reInitDelay           = 2 * time.Second
 )
 
-var errNotConnected = errors.New("Consumer: not connected to the server")
+var errNotConnected = errors.New("consumer: not connected to the server")
 
 type Slave struct {
 	master          *Master
@@ -161,7 +160,7 @@ func (s *Slave) Closed() <-chan struct{} {
 
 func (s *Slave) Close() error {
 	if !s.isReady {
-		return errors.New(fmt.Sprintf("Consumer: channel not ready while closing"))
+		return errors.New("consumer: channel not ready while closing")
 	}
 	err := s.channel.Close()
 	if err != nil {

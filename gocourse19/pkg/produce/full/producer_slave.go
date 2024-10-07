@@ -30,8 +30,8 @@ type Slave struct {
 }
 
 var (
-	errShutdown     = errors.New("-- Producer session shut down")
-	errConnNotReady = errors.New("Producer: connection not ready")
+	errShutdown     = errors.New("producer session shut down")
+	errConnNotReady = errors.New("producer: connection not ready")
 )
 
 func NewSlave(ctx context.Context, master *Master) (*Slave, error) {
@@ -168,7 +168,7 @@ func (s *Slave) Push(_ context.Context, rk string, body []byte) error {
 	for {
 		if !s.IsReady {
 			if retries > pushRetries {
-				return errors.New("Producer: failed to push")
+				return errors.New("producer: failed to push")
 			} else {
 				log.Println("Producer: failed to push. Retrying...")
 				retries++
@@ -225,7 +225,7 @@ func (s *Slave) Push(_ context.Context, rk string, body []byte) error {
 				return errConnNotReady
 			}
 			if retries > confirmRetries {
-				return fmt.Errorf("Producer: failed to confirm to %s", rk)
+				return fmt.Errorf("producer: failed to confirm to %s", rk)
 			} else {
 				retries++
 				log.Println("Producer: failed to confirm. Retrying... to %s", rk)
@@ -236,7 +236,7 @@ func (s *Slave) Push(_ context.Context, rk string, body []byte) error {
 
 func (s *Slave) UnsafePush(rk string, body []byte) error {
 	if !s.IsReady {
-		return errors.New(fmt.Sprintf("Producer: connection not ready"))
+		return errors.New("producer: connection not ready")
 	}
 
 	return s.channel.Publish(
@@ -255,7 +255,7 @@ func (s *Slave) UnsafePush(rk string, body []byte) error {
 
 func (s *Slave) Close() error {
 	if !s.IsReady {
-		return errors.New(fmt.Sprintf("Producer: channel not ready while closing"))
+		return errors.New("producer: channel not ready while closing")
 	}
 	err := s.channel.Close()
 	if err != nil {

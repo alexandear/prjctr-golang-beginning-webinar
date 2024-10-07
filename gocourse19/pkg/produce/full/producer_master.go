@@ -3,7 +3,6 @@ package full
 import (
 	"context"
 	"errors"
-	"fmt"
 	"log"
 	"time"
 
@@ -81,7 +80,7 @@ func (s *Master) changeConnection(connection *amqp.Connection) {
 
 func (s *Master) Close() error {
 	if !s.isReady {
-		return errors.New(fmt.Sprintf("Producer: connection not ready while closing"))
+		return errors.New("producer: connection not ready while closing")
 	}
 	err := s.connection.Close()
 	if err != nil {

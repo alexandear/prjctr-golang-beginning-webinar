@@ -3,7 +3,6 @@ package brief
 import (
 	"context"
 	"errors"
-	"fmt"
 	"log"
 
 	"github.com/streadway/amqp"
@@ -47,7 +46,7 @@ func (s *Master) connect(_ context.Context, busHost, busUser, busPass string) er
 
 func (s *Master) Close() error {
 	if !s.isReady {
-		return errors.New(fmt.Sprintf("Consumer: connection not ready while closing"))
+		return errors.New("consumer: connection not ready while closing")
 	}
 	err := s.connection.Close()
 	if err != nil {

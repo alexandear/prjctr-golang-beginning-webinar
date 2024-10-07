@@ -3,7 +3,6 @@ package brief
 import (
 	"context"
 	"errors"
-	"fmt"
 	"log"
 	"sync"
 	"time"
@@ -118,7 +117,7 @@ func (s *Slave) Closed() <-chan struct{} {
 
 func (s *Slave) Close() error {
 	if !s.isReady {
-		return errors.New(fmt.Sprintf("Consumer: channel not ready while closing"))
+		return errors.New("consumer: channel not ready while closing")
 	}
 	err := s.channel.Close()
 	if err != nil {
