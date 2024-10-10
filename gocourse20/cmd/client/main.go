@@ -2,91 +2,128 @@ package main
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
+	"log"
 	"net/http"
 )
 
-const baseURL = "http://localhost:8080/patients"
-
-type Patient struct {
+type patient struct {
 	ID        string `json:"id,omitempty"`
 	Name      string `json:"name"`
 	Age       string `json:"age"`
 	Diagnosis string `json:"diagnosis"`
 }
 
-func addPatient(patient Patient) {
-	payload, err := json.Marshal(patient)
-	if err != nil {
-		fmt.Println("Error marshaling patient:", err)
-		return
-	}
-
-	resp, err := http.Post(baseURL, "application/json", bytes.NewBuffer(payload))
-	if err != nil {
-		fmt.Println("Error:", err)
-		return
-	}
-	defer resp.Body.Close()
-	body, _ := ioutil.ReadAll(resp.Body)
-	fmt.Println("Add Patient Response:", string(body))
+type patientClient struct {
+	client  *http.Client
+	baseURL string
 }
 
-func getPatient(id string) {
-	url := fmt.Sprintf("%s/%s", baseURL, id)
-	resp, err := http.Get(url)
-	if err != nil {
-		fmt.Println("Error:", err)
-		return
-	}
-	defer resp.Body.Close()
-	body, _ := ioutil.ReadAll(resp.Body)
-	fmt.Println("Get Patient Response:", string(body))
-}
-
-func updatePatient(id string, patient Patient) {
-	url := fmt.Sprintf("%s/%s", baseURL, id)
+func (c *patientClient) addPatient(ctx context.Context, patient patient) (string, error) {
 	payload, err := json.Marshal(patient)
 	if err != nil {
-		fmt.Println("Error marshaling patient:", err)
-		return
+		return "", fmt.Errorf("marshaling patient: %w", err)
 	}
 
-	req, err := http.NewRequest(http.MethodPut, url, bytes.NewBuffer(payload))
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, c.baseURL, bytes.NewBuffer(payload))
 	if err != nil {
-		fmt.Println("Error creating request:", err)
-		return
+		return "", fmt.Errorf("creating request: %w", err)
+	}
+
+	resp, err := c.client.Do(req)
+	if err != nil {
+		return "", fmt.Errorf("sending request: %w", err)
+	}
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return "", fmt.Errorf("reading response: %w", err)
+	}
+
+	return string(body), nil
+}
+
+func (c *patientClient) getPatient(ctx context.Context, id string) (string, error) {
+	url := c.baseURL + "/" + id
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, http.NoBody)
+	if err != nil {
+		return "", fmt.Errorf("creating request: %w", err)
+	}
+
+	resp, err := c.client.Do(req)
+	if err != nil {
+		return "", fmt.Errorf("sending request: %w", err)
+	}
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return "", fmt.Errorf("reading response: %w", err)
+	}
+
+	return string(body), nil
+}
+
+func (c *patientClient) updatePatient(ctx context.Context, id string, patient patient) (string, error) {
+	payload, err := json.Marshal(patient)
+	if err != nil {
+		return "", fmt.Errorf("marshaling patient: %w", err)
+	}
+
+	url := c.baseURL + "/" + id
+	req, err := http.NewRequestWithContext(ctx, http.MethodPut, url, bytes.NewBuffer(payload))
+	if err != nil {
+		return "", fmt.Errorf("creating request: %w", err)
 	}
 	req.Header.Set("Content-Type", "application/json")
 
-	client := &http.Client{}
-	resp, err := client.Do(req)
+	resp, err := c.client.Do(req)
 	if err != nil {
-		fmt.Println("Error sending request:", err)
-		return
+		return "", fmt.Errorf("sending request: %w", err)
 	}
 	defer resp.Body.Close()
-	body, _ := ioutil.ReadAll(resp.Body)
-	fmt.Println("Update Patient Response:", string(body))
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return "", fmt.Errorf("reading response: %w", err)
+	}
+
+	return string(body), nil
 }
 
 func main() {
-	newPatient := Patient{
+	pc := &patientClient{
+		client:  http.DefaultClient,
+		baseURL: "http://localhost:8080/patients",
+	}
+
+	addResp, err := pc.addPatient(context.Background(), patient{
 		Name:      "John Doe",
 		Age:       "30",
 		Diagnosis: "Flu",
+	})
+	if err != nil {
+		log.Fatalln("Error adding patient:", err)
 	}
-	addPatient(newPatient)
+	log.Println("Add patient response:", addResp)
 
-	// Припускаючи, що ID нового пацієнта відомий та є "1", для прикладу
-	getPatient("1")
+	getResp, err := pc.getPatient(context.Background(), "1")
+	if err != nil {
+		log.Fatalln("Error getting patient:", err)
+	}
+	log.Println("Get patient response:", getResp)
 
-	updatedPatient := Patient{
+	updateResp, err := pc.updatePatient(context.Background(), "1", patient{
 		Name:      "John Doe Updated",
 		Age:       "31",
 		Diagnosis: "Cold",
+	})
+	if err != nil {
+		log.Fatalln("Error updating patient:", err)
 	}
-	updatePatient("1", updatedPatient)
+	log.Println("Update patient response:", updateResp)
 }
