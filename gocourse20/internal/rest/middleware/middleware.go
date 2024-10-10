@@ -1,11 +1,13 @@
-package middlewares
+package middleware
 
 import (
-	"go.opentelemetry.io/otel/metric"
-	"gocourse20/pkg/telementry/meter"
 	"log"
 	"net/http"
 	"time"
+
+	"go.opentelemetry.io/otel/metric"
+
+	"gocourse20/internal/telemetry/meter"
 )
 
 func Last(next http.Handler) http.Handler {
@@ -22,12 +24,11 @@ func Last(next http.Handler) http.Handler {
 // Meter is a middleware that sets common response headers.
 func Meter(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		meter.MustIncCounter(r.Context(), meter.TotalRequests)
 
-		meter.IncCounter(r.Context(), meter.TotalRequests)
-
-		userName := r.Header.Get(`X-Username`)
+		userName := r.Header.Get("X-Username")
 		attr := meter.UserKey.String(userName)
-		meter.UpdateGauge(r.Context(), meter.ConcurrentConnections, 1, metric.WithAttributes(attr))
+		meter.MustUpdateGauge(r.Context(), meter.ConcurrentConnections, 1, metric.WithAttributes(attr))
 
 		w.Header().Set("Content-Type", "application/json")
 		next.ServeHTTP(w, r)

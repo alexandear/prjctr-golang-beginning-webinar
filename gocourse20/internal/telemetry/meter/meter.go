@@ -1,13 +1,16 @@
 // Package meter wraps the prometheus instrumentation
+
 package meter
 
 import (
 	"context"
-	"go.opentelemetry.io/otel/attribute"
-	api "go.opentelemetry.io/otel/metric"
+	"errors"
 	"log"
 	"net/http"
 	"time"
+
+	"go.opentelemetry.io/otel/attribute"
+	api "go.opentelemetry.io/otel/metric"
 )
 
 const packageName = `gocourse20`
@@ -58,7 +61,8 @@ var counters = map[uint8]*countMetric{
 	TotalSuccessResponse: {
 		baseMetric: baseMetric{
 			name:        "response_success_sum_total",
-			description: `Number of successfully processed requests`},
+			description: `Number of successfully processed requests`,
+		},
 	},
 }
 
@@ -80,19 +84,19 @@ var histograms = map[uint8]*histMetric{
 	},
 }
 
-func MustInit(address string, startPrometheusServer bool) {
+func MustInit(address string) {
 	registrator, httpHandler, err := initPrometheus(packageName)
 	if err != nil {
 		log.Panic(err)
 	}
 
-	if startPrometheusServer {
-		http.Handle("/metrics", httpHandler)
-		go func() {
-			//log.Debugf("prometheus server running on %s", address)
-			log.Panic(http.ListenAndServe(address, nil))
-		}()
-	}
+	http.Handle("/metrics", httpHandler)
+	go func() {
+		log.Printf("prometheus server running on %s\n", address)
+		if err := http.ListenAndServe(address, nil); !errors.Is(err, http.ErrServerClosed) {
+			log.Panic(err)
+		}
+	}()
 
 	for _, met := range counters {
 		registrator.registerCounter(met)
@@ -108,35 +112,38 @@ func MustInit(address string, startPrometheusServer bool) {
 }
 
 func TrackTimeBegin() TimeTracker {
-	return TimeTracker(time.Now())
+	return TimeTracker(time.Now().UTC())
 }
 
-func (t TimeTracker) Flush(ctx context.Context, metric uint8, attrs ...api.RecordOption) {
-	RecordHist(ctx, metric, time.Since(time.Time(t)).Seconds(), attrs...)
+func (t TimeTracker) MustFlush(ctx context.Context, metric uint8, attrs ...api.RecordOption) {
+	MustRecordHist(ctx, metric, time.Since(time.Time(t)).Seconds(), attrs...)
 }
 
-func RecordHist(ctx context.Context, metric uint8, val float64, attrs ...api.RecordOption) {
-	if m, ok := histograms[metric]; ok {
-		m.fn(ctx, val, attrs...)
-	} else {
+func MustRecordHist(ctx context.Context, metric uint8, val float64, attrs ...api.RecordOption) {
+	m, ok := histograms[metric]
+	if !ok {
 		log.Panicf("meter %d is not histogram", metric)
 	}
+
+	m.fn(ctx, val, attrs...)
 }
 
-func UpdateGauge(ctx context.Context, metric uint8, val float64, attrs ...api.ObserveOption) {
-	if m, ok := gauges[metric]; ok {
-		m.fn(ctx, val, attrs...)
-	} else {
+func MustUpdateGauge(ctx context.Context, metric uint8, val float64, attrs ...api.ObserveOption) {
+	m, ok := gauges[metric]
+	if !ok {
 		log.Panicf("meter %d is not gauge", metric)
 	}
+
+	m.fn(ctx, val, attrs...)
 }
 
-func IncCounter(ctx context.Context, metric uint8, attrs ...api.AddOption) {
-	if m, ok := counters[metric]; ok {
-		m.fn(ctx, 1, attrs...)
-	} else {
+func MustIncCounter(ctx context.Context, metric uint8, attrs ...api.AddOption) {
+	m, ok := counters[metric]
+	if !ok {
 		log.Panicf("meter %d is not counter", metric)
 	}
+
+	m.fn(ctx, 1, attrs...)
 }
 
 func KeyValue(k attribute.Key, v attribute.Value) attribute.KeyValue {

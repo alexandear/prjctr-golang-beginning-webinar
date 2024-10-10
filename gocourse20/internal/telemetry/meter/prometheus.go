@@ -3,20 +3,19 @@ package meter
 import (
 	"context"
 	"fmt"
+	"log"
+	"net/http"
+	"sync"
+
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/exporters/prometheus"
 	api "go.opentelemetry.io/otel/metric"
 	"go.opentelemetry.io/otel/sdk/metric"
-	"log"
-	"net/http"
-	"sync"
 )
 
-var (
-	UserKey = attribute.Key("user")
-)
+var UserKey = attribute.Key("user")
 
 type prometheusRegistrator struct {
 	meter api.Meter

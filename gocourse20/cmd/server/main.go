@@ -1,35 +1,41 @@
 package main
 
 import (
-	"github.com/gorilla/mux"
-	"gocourse20/core/service/patients"
-	"gocourse20/interfaces/rest/handlers"
-	middlewares2 "gocourse20/interfaces/rest/middlewares"
-	"gocourse20/pkg/telementry/meter"
+	"errors"
 	"log"
 	"net/http"
+	"time"
+
+	"gocourse20/internal/rest/handler"
+	"gocourse20/internal/rest/middleware"
+	"gocourse20/internal/service/patient"
+	"gocourse20/internal/telemetry/meter"
 )
 
 func main() {
-	meter.MustInit(`0.0.0.0:4343`, true)
+	meter.MustInit("localhost:4343")
 
-	patientsService := patients.NewService()
+	patientService := patient.NewService()
 
-	// start the rest server
-	restHandler := handlers.NewPatients(patientsService)
+	restHandler := handler.NewPatient(patientService)
 
-	router := mux.NewRouter()
+	mux := http.NewServeMux()
 
-	router.HandleFunc("/patients", restHandler.AddPatient).Methods("POST")
-	router.HandleFunc("/patients/{id}", restHandler.GetPatient).Methods("GET")
-	router.HandleFunc("/patients/{id}", restHandler.UpdatePatient).Methods("PUT")
+	mux.HandleFunc("POST /patients", restHandler.AddPatient)
+	mux.HandleFunc("GET /patients/{id}", restHandler.GetPatient)
+	mux.HandleFunc("PUT /patients/{id}", restHandler.UpdatePatient)
 
-	handler := middlewares2.Meter(middlewares2.Last(router))
+	handler := middleware.Meter(middleware.Last(mux))
 
-	server := &http.Server{Addr: ":8080", Handler: handler}
-	if err := server.ListenAndServe(); err != nil {
-		log.Fatalf("failed to serve: %v", err)
+	server := &http.Server{
+		Addr:              "localhost:8080",
+		Handler:           handler,
+		ReadHeaderTimeout: 5 * time.Second,
 	}
 
-	return
+	log.Println("Starting server on", server.Addr)
+
+	if err := server.ListenAndServe(); !errors.Is(err, http.ErrServerClosed) {
+		log.Fatalf("Failed to serve: %v", err)
+	}
 }
