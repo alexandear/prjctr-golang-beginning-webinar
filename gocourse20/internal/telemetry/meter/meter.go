@@ -13,7 +13,7 @@ import (
 	api "go.opentelemetry.io/otel/metric"
 )
 
-const packageName = `gocourse20`
+const packageName = "gocourse20"
 
 type TimeTracker time.Time
 
@@ -49,19 +49,19 @@ var counters = map[uint8]*countMetric{
 	TotalRequests: {
 		baseMetric: baseMetric{
 			name:        "request_sum_total",
-			description: `Total number of requests processed`,
+			description: "Total number of requests processed",
 		},
 	},
 	TotalErrorsResponse: {
 		baseMetric: baseMetric{
 			name:        "response_error_sum_total",
-			description: `Number of requests processed with an error`,
+			description: "Number of requests processed with an error",
 		},
 	},
 	TotalSuccessResponse: {
 		baseMetric: baseMetric{
 			name:        "response_success_sum_total",
-			description: `Number of successfully processed requests`,
+			description: "Number of successfully processed requests",
 		},
 	},
 }
@@ -70,7 +70,7 @@ var gauges = map[uint8]*gaugeMetric{
 	ConcurrentConnections: {
 		baseMetric: baseMetric{
 			name:        "concurrent_connections",
-			description: `The number of concurrent connections at the moment`,
+			description: "The number of concurrent connections at the moment",
 		},
 	},
 }
@@ -79,7 +79,7 @@ var histograms = map[uint8]*histMetric{
 	RequestDuration: {
 		baseMetric: baseMetric{
 			name:        "request_duration",
-			description: `Request duration`,
+			description: "Request duration",
 		},
 	},
 }
@@ -92,7 +92,7 @@ func MustInit(address string) {
 
 	http.Handle("/metrics", httpHandler)
 	go func() {
-		log.Printf("prometheus server running on %s\n", address)
+		log.Printf("Prometheus server running on http://%s\n", address)
 		if err := http.ListenAndServe(address, nil); !errors.Is(err, http.ErrServerClosed) {
 			log.Panic(err)
 		}

@@ -33,7 +33,7 @@ func main() {
 		ReadHeaderTimeout: 5 * time.Second,
 	}
 
-	log.Println("Starting server on", server.Addr)
+	log.Printf("RESTful server running on http://%s\n", server.Addr)
 
 	if err := server.ListenAndServe(); !errors.Is(err, http.ErrServerClosed) {
 		log.Fatalf("Failed to serve: %v", err)
