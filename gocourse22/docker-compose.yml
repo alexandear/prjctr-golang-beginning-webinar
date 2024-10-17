@@ -10,6 +10,3 @@ services:
       POSTGRES_DB: gocourse22
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 123456
-    volumes:
-      - ./docker/postgres/init-scripts:/docker-entrypoint-initdb.d
-      - ./docker/postgres/storage:/var/lib/postgresql
