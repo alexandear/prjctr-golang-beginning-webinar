@@ -13,10 +13,9 @@ import (
 	"github.com/iancoleman/strcase"
 )
 
-var (
-	fieldNestPattern = regexp.MustCompile(`\[\d+\]$`)
-	ErrWrongID       = errors.New("wrong id")
-)
+var ErrWrongID = errors.New("wrong id")
+
+var fieldNestPattern = regexp.MustCompile(`\[\d+\]$`)
 
 type ValidationError struct {
 	Field string `json:"field"`
