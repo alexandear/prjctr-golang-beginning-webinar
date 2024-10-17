@@ -58,9 +58,8 @@ func Run() *cli.Command {
 
 			waitForTheEnd := &sync.WaitGroup{}
 
-			// start the http server
+			waitForTheEnd.Add(1)
 			go func() {
-				waitForTheEnd.Add(1)
 				defer waitForTheEnd.Done()
 
 				router := appHttp.NewRouter()
@@ -72,15 +71,13 @@ func Run() *cli.Command {
 				go func() {
 					<-ctx.Done()
 					if err := httpServer.Shutdown(); err != nil {
-						log.Fatal(err)
+						log.Printf("Failed to shutdown HTTP server: %v\n", err)
 					}
 				}()
-				if err := httpServer.Start(); err != nil {
-					if !errors.Is(err, http.ErrServerClosed) {
-						log.Fatal(err)
-					}
-					log.Println("Server has been stopped")
+				if err := httpServer.Start(); !errors.Is(err, http.ErrServerClosed) {
+					log.Printf("Failed to start HTTP server: %v\n", err)
 				}
+				log.Println("Server has been stopped")
 			}()
 
 			// wait for context to be closed
