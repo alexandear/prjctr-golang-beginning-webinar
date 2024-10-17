@@ -25,6 +25,8 @@ func Migrate() *cli.Command {
 	}
 }
 
+// MigrationApply applies the migrations via the atlas binary.
+// Read the documentation at https://atlasgo.io/getting-started/#installation to learn how to install it.
 func MigrateApply() *cli.Command {
 	return &cli.Command{
 		Name:  "apply",
@@ -68,9 +70,10 @@ func MigrateApply() *cli.Command {
 			)
 
 			applyParams := atlasexec.SchemaApplyParams{
-				Schema: []string{"public"},
-				To:     migrationsSource,
-				URL:    dsnURL,
+				Schema:      []string{"public"},
+				To:          migrationsSource,
+				URL:         dsnURL,
+				AutoApprove: true,
 			}
 
 			res, resErr := client.SchemaApply(c.Context, &applyParams)

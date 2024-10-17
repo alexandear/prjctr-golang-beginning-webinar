@@ -19,7 +19,6 @@ table "doctors" {
   column "email" {
     type = varchar(100)
     null = false
-    attrs = ["unique"]
   }
   column "phone" {
     type = varchar(20)
