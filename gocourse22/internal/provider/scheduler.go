@@ -6,6 +6,6 @@ import (
 	"prjctr.com/gocourse22/pkg/scheduler"
 )
 
-func ProvideScheduler(i *do.Injector) (*scheduler.Scheduler, error) {
-	return scheduler.NewScheduler(i), nil
+func Scheduler(injector *do.Injector) (*scheduler.Scheduler, error) {
+	return scheduler.NewScheduler(injector), nil
 }

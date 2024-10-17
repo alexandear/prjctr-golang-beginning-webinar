@@ -12,12 +12,12 @@ import (
 	"prjctr.com/gocourse22/internal/db"
 )
 
-func ProvideConnection(i *do.Injector) {
-	do.ProvideNamed(i, "postgres", ProvidePostgresConnection)
+func Connection(injector *do.Injector) {
+	do.ProvideNamed(injector, "postgres", PostgresConnection)
 }
 
-func ProvidePostgresConnection(i *do.Injector) (*pgxpool.Pool, error) {
-	c := do.MustInvoke[*cli.Context](i)
+func PostgresConnection(injector *do.Injector) (*pgxpool.Pool, error) {
+	c := do.MustInvoke[*cli.Context](injector)
 
 	dsn := fmt.Sprintf(
 		"host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",

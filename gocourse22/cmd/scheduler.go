@@ -49,8 +49,8 @@ func Worker() *cli.Command {
 			c.Context = ctx
 			do.OverrideValue(injector, c)
 
-			provider.ProvideConnection(injector)
-			do.Provide(injector, provider.ProvideScheduler)
+			provider.Connection(injector)
+			do.Provide(injector, provider.Scheduler)
 
 			stopWg := sync.WaitGroup{}
 			stopWg.Add(1)

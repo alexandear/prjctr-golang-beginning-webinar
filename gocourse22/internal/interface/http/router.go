@@ -12,7 +12,7 @@ type RouteProvider interface {
 }
 
 type ValidationProvider interface {
-	RegisterValidation(i *do.Injector)
+	RegisterValidation(injector *do.Injector)
 }
 
 type Router struct {

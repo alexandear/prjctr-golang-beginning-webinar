@@ -10,7 +10,7 @@ import (
 	"github.com/urfave/cli/v2"
 
 	"prjctr.com/gocourse22/cmd/flag"
-	common "prjctr.com/gocourse22/internal/provider"
+	"prjctr.com/gocourse22/internal/provider"
 )
 
 func Migrate() *cli.Command {
@@ -49,7 +49,7 @@ func MigrateApply() *cli.Command {
 
 			do.OverrideValue(injector, c)
 
-			common.ProvideConnection(injector)
+			provider.Connection(injector)
 
 			wd, _ := os.Getwd()
 			migrationsSource := fmt.Sprintf("file://%s/migrations", wd)

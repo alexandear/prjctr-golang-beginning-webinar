@@ -40,12 +40,12 @@ func (s HTTP) Shutdown() error {
 }
 
 // NewServer provides a new http server
-func NewServer(i *do.Injector, r *Router) *HTTP {
-	c := do.MustInvoke[*cli.Context](i)
+func NewServer(injector *do.Injector, router *Router) *HTTP {
+	c := do.MustInvoke[*cli.Context](injector)
 
 	serv := &http.Server{
 		Addr:              c.String(flag.HTTPServerAddress),
-		Handler:           r.Handler(),
+		Handler:           router.Handler(),
 		ReadTimeout:       c.Duration(flag.HTTPReadTimeout),
 		ReadHeaderTimeout: c.Duration(flag.HTTPReadTimeout),
 	}

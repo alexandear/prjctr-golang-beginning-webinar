@@ -15,7 +15,7 @@ import (
 	"prjctr.com/gocourse22/cmd/flag"
 	"prjctr.com/gocourse22/internal/domain/clinic"
 	appHttp "prjctr.com/gocourse22/internal/interface/http"
-	common "prjctr.com/gocourse22/internal/provider"
+	"prjctr.com/gocourse22/internal/provider"
 	"prjctr.com/gocourse22/pkg/extend"
 )
 
@@ -53,7 +53,7 @@ func Run() *cli.Command {
 			c.Context = ctx
 			do.OverrideValue(injector, c)
 
-			common.ProvideConnection(injector)
+			provider.Connection(injector)
 			do.Provide(injector, clinic.ProvideService)
 			do.Provide(injector, clinic.NewClinicHandler)
 
