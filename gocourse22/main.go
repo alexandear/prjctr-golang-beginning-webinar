@@ -25,7 +25,7 @@ var info = fmt.Sprintf("build version: %s, branch: %s, tag: %s, build time: %s",
 
 func init() {
 	if err := godotenv.Load(); err != nil {
-		fmt.Println(err.Error())
+		panic("Failed to load .env: " + err.Error())
 	}
 
 	runtime.SetBlockProfileRate(1)

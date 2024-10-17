@@ -39,8 +39,8 @@ func Worker() *cli.Command {
 			injector := do.DefaultInjector
 
 			// listen to os interrupt signals and close the context
-			ctx, cancelFunc := signal.NotifyContext(c.Context, syscall.SIGTERM, syscall.SIGINT, syscall.SIGKILL)
-			defer cancelFunc()
+			ctx, cancel := signal.NotifyContext(c.Context, syscall.SIGTERM, syscall.SIGINT, syscall.SIGKILL)
+			defer cancel()
 
 			// inject the signal notify context
 			do.ProvideValue(injector, ctx)
@@ -67,10 +67,9 @@ func Worker() *cli.Command {
 				if err := tasksScheduler.Manage(ctx,
 					tasks.NewComplicatedCalculation(injector),
 					tasks.CalculateEmployysBonuses(injector),
-				); err != nil {
-					if !errors.Is(err, http.ErrServerClosed) {
-						log.Fatal(err)
-					}
+				); !errors.Is(err, http.ErrServerClosed) {
+					log.Printf("Failed to manage tasks: %v\n", err)
+					return
 				}
 				log.Println("Scheduler has been stopped")
 			}()
