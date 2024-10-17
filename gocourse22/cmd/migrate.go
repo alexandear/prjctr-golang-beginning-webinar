@@ -1,14 +1,16 @@
 package cmd
 
 import (
-	"ariga.io/atlas-go-sdk/atlasexec"
 	"fmt"
+	"log"
+	"os"
+
+	"ariga.io/atlas-go-sdk/atlasexec"
+
 	"github.com/samber/do"
 	"github.com/urfave/cli/v2"
 	"gocourse22/cmd/flag"
 	common "gocourse22/internal/providers"
-	"log"
-	"os"
 )
 
 func Migrate() *cli.Command {

@@ -2,6 +2,13 @@ package cmd
 
 import (
 	"errors"
+	"log"
+	"net/http"
+	"os/signal"
+	"sync"
+	"syscall"
+	"time"
+
 	"github.com/samber/do"
 	"github.com/urfave/cli/v2"
 	"gocourse22/cmd/flag"
@@ -9,12 +16,6 @@ import (
 	appHttp "gocourse22/internal/interface/http"
 	common "gocourse22/internal/providers"
 	"gocourse22/pkg/extend"
-	"log"
-	"net/http"
-	"os/signal"
-	"sync"
-	"syscall"
-	"time"
 )
 
 // Run define the run command

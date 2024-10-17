@@ -2,17 +2,18 @@ package cmd
 
 import (
 	"errors"
+	"log"
+	"net/http"
+	"os/signal"
+	"sync"
+	"syscall"
+
 	"github.com/samber/do"
 	"github.com/urfave/cli/v2"
 	"gocourse22/cmd/flag"
 	"gocourse22/internal/providers"
 	"gocourse22/pkg/scheduler"
 	"gocourse22/pkg/scheduler/tasks"
-	"log"
-	"net/http"
-	"os/signal"
-	"sync"
-	"syscall"
 )
 
 // Worker define the run command

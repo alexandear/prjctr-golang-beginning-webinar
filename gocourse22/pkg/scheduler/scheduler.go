@@ -2,9 +2,10 @@ package scheduler
 
 import (
 	"context"
+	"time"
+
 	"github.com/go-co-op/gocron"
 	"github.com/samber/do"
-	"time"
 )
 
 type Task interface {

@@ -2,14 +2,15 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"os"
+	"runtime"
+
 	"github.com/joho/godotenv"
 	"github.com/samber/do"
 	"github.com/urfave/cli/v2"
 	"gocourse22/cmd"
 	"gocourse22/cmd/flag"
-	"log"
-	"os"
-	"runtime"
 )
 
 var (
@@ -32,7 +33,7 @@ func init() {
 // @title Clinics service
 func main() {
 	// create injector from default injector
-	var injector = do.DefaultInjector
+	injector := do.DefaultInjector
 
 	// create the cli app
 	app := &cli.App{

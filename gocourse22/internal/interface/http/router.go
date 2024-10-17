@@ -1,9 +1,10 @@
 package http
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/samber/do"
-	"net/http"
 )
 
 type RouteProvider interface {

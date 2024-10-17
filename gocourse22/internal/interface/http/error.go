@@ -3,17 +3,20 @@ package http
 import (
 	"errors"
 	"fmt"
+	"net/http"
+	"regexp"
+	"strings"
+
 	"github.com/gin-gonic/gin"
 	v10 "github.com/go-playground/validator/v10"
 	"github.com/google/uuid"
 	"github.com/iancoleman/strcase"
-	"net/http"
-	"regexp"
-	"strings"
 )
 
-var fieldNestPattern = regexp.MustCompile(`\[\d+\]$`)
-var ErrWrongID = errors.New("wrong id")
+var (
+	fieldNestPattern = regexp.MustCompile(`\[\d+\]$`)
+	ErrWrongID       = errors.New("wrong id")
+)
 
 type ValidationError struct {
 	Field string `json:"field"`
@@ -44,9 +47,7 @@ func toField(field v10.FieldError) string {
 }
 
 func NewErrorResponse(c *gin.Context, err error) {
-	var (
-		ve v10.ValidationErrors
-	)
+	var ve v10.ValidationErrors
 
 	resp := &ErrorResponse{
 		Code:    0,

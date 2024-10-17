@@ -3,21 +3,25 @@ package clinic
 import (
 	"context"
 	"fmt"
+	"sync"
+
 	"github.com/georgysavva/scany/pgxscan"
 	"github.com/jackc/pgx/v4/pgxpool"
 	"github.com/samber/do"
 	"gocourse22/pkg/extend"
-	"sync"
 )
 
-const visits int = 110
-const weeks int = 3
+const (
+	visits int = 110
+	weeks  int = 3
+)
 
 func ProvideService(inj *do.Injector) (*Service, error) {
 	return NewService(
 		do.MustInvokeNamed[*pgxpool.Pool](inj, `postgres`),
 	), nil
 }
+
 func NewService(conn *pgxpool.Pool) *Service {
 	return &Service{conn}
 }

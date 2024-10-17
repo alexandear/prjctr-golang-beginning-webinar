@@ -2,11 +2,12 @@ package http
 
 import (
 	"context"
+	"net/http"
+	"time"
+
 	"github.com/samber/do"
 	"github.com/urfave/cli/v2"
 	"gocourse22/cmd/flag"
-	"net/http"
-	"time"
 )
 
 // HTTP is the http server

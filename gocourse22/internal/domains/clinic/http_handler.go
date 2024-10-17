@@ -2,11 +2,12 @@ package clinic
 
 import (
 	"fmt"
+	"log"
+	httpInt "net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/samber/do"
 	"gocourse22/internal/interface/http"
-	"log"
-	httpInt "net/http"
 )
 
 func NewClinicHandler(inj *do.Injector) (*ClinicHandler, error) {

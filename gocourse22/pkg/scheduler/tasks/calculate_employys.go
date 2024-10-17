@@ -2,6 +2,7 @@ package tasks
 
 import (
 	"context"
+
 	"github.com/samber/do"
 	"gocourse22/pkg/scheduler"
 )
@@ -10,8 +11,7 @@ func CalculateEmployysBonuses(_ *do.Injector) *CalculateEmployys {
 	return &CalculateEmployys{}
 }
 
-type CalculateEmployys struct {
-}
+type CalculateEmployys struct{}
 
 func (r *CalculateEmployys) TimeType() scheduler.TimeType {
 	return scheduler.Every

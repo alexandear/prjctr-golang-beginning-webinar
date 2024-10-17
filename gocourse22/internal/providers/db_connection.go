@@ -2,6 +2,7 @@ package providers
 
 import (
 	"fmt"
+
 	"github.com/jackc/pgx/v4/pgxpool"
 	_ "github.com/jackc/pgx/v4/stdlib"
 	"github.com/samber/do"

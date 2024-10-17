@@ -3,19 +3,19 @@ package tasks
 import (
 	"context"
 	"fmt"
+	"log"
+
 	"github.com/jackc/pgx/v4/pgxpool"
 	"github.com/samber/do"
 	"gocourse22/pkg/scheduler"
 	"golang.org/x/sync/errgroup"
-	"log"
 )
 
 func NewComplicatedCalculation(_ *do.Injector) *ComplicatedCalculation {
 	return &ComplicatedCalculation{}
 }
 
-type ComplicatedCalculation struct {
-}
+type ComplicatedCalculation struct{}
 
 func (r *ComplicatedCalculation) TimeType() scheduler.TimeType {
 	return scheduler.Every
