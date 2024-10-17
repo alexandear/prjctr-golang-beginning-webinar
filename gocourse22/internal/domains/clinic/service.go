@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/georgysavva/scany/pgxscan"
-	"github.com/jackc/pgx/v4/pgxpool"
+	"github.com/georgysavva/scany/v2/pgxscan"
+	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/samber/do"
 	"gocourse22/pkg/extend"
 )

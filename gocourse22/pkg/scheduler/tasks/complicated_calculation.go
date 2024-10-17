@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/jackc/pgx/v4/pgxpool"
+	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/samber/do"
 	"gocourse22/pkg/scheduler"
 	"golang.org/x/sync/errgroup"
