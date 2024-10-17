@@ -5,8 +5,8 @@ import (
 	"time"
 )
 
-// CacheItem представляє одиницю даних у кеші.
-type CacheItem struct {
+// Item представляє одиницю даних у кеші.
+type Item struct {
 	Value      interface{}
 	Expiration int64
 }
@@ -28,7 +28,7 @@ func (c *Cache) Set(key string, value interface{}, ttl time.Duration) {
 	if ttl > 0 {
 		expiration = time.Now().Add(ttl).UnixNano()
 	}
-	c.items.Store(key, CacheItem{
+	c.items.Store(key, Item{
 		Value:      value,
 		Expiration: expiration,
 	})
@@ -41,7 +41,7 @@ func (c *Cache) Get(key string) (interface{}, bool) {
 	if !ok {
 		return nil, false
 	}
-	cacheItem := item.(CacheItem)
+	cacheItem := item.(Item)
 	if cacheItem.Expiration > 0 && time.Now().UnixNano() > cacheItem.Expiration {
 		c.Delete(key) // Видаляємо прострочене значення
 		return nil, false
