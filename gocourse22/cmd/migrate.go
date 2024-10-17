@@ -10,7 +10,7 @@ import (
 	"github.com/urfave/cli/v2"
 
 	"prjctr.com/gocourse22/cmd/flag"
-	common "prjctr.com/gocourse22/internal/providers"
+	common "prjctr.com/gocourse22/internal/provider"
 )
 
 func Migrate() *cli.Command {

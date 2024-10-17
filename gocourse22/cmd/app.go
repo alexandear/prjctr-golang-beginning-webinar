@@ -13,9 +13,9 @@ import (
 	"github.com/urfave/cli/v2"
 
 	"prjctr.com/gocourse22/cmd/flag"
-	"prjctr.com/gocourse22/internal/domains/clinic"
+	"prjctr.com/gocourse22/internal/domain/clinic"
 	appHttp "prjctr.com/gocourse22/internal/interface/http"
-	common "prjctr.com/gocourse22/internal/providers"
+	common "prjctr.com/gocourse22/internal/provider"
 	"prjctr.com/gocourse22/pkg/extend"
 )
 
