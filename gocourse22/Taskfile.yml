@@ -1,0 +1,28 @@
+version: '3'
+
+tasks:
+  default:
+    desc: "Shows available tasks."
+    cmds:
+      - task --list-all
+    silent: true
+
+  build:
+    desc: "Build the Go project"
+    cmds:
+      - go build -o bin/gocourse22 main.go
+
+  test:
+    desc: "Run tests"
+    cmds:
+      - go test -race -count=1 ./...
+
+  lint:
+    desc: "Run linters"
+    cmds:
+      - golangci-lint run
+
+  migrate:
+    desc: "Run database migrations"
+    cmds:
+      - go run main.go migrate apply
