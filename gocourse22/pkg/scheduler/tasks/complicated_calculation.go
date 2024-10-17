@@ -23,7 +23,7 @@ func (r *ComplicatedCalculation) TimeType() scheduler.TimeType {
 }
 
 func (r *ComplicatedCalculation) Expression() string {
-	return `1m`
+	return "1m"
 }
 
 func (r *ComplicatedCalculation) Operation(ctx context.Context, inj *do.Injector) func() {

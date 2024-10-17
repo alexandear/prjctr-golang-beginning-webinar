@@ -1,3 +1,3 @@
 package clinic
 
-const tableName = `clinics`
+const tableName = "clinics"

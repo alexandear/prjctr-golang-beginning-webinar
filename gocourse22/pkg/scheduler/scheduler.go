@@ -24,11 +24,11 @@ const (
 func (tt TimeType) String() string {
 	switch tt {
 	case Every:
-		return `every`
+		return "every"
 	case Cron:
-		return `cron`
+		return "cron"
 	default:
-		return `unknown`
+		return "unknown"
 	}
 }
 

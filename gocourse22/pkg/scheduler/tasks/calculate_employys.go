@@ -19,7 +19,7 @@ func (r *CalculateEmployees) TimeType() scheduler.TimeType {
 }
 
 func (r *CalculateEmployees) Expression() string {
-	return `1m`
+	return "1m"
 }
 
 func (r *CalculateEmployees) Operation(_ context.Context, inj *do.Injector) func() {

@@ -105,5 +105,5 @@ func (h *ClinicHandler) delete(c *gin.Context) {
 func (h *ClinicHandler) config(c *gin.Context) {
 	// do config creation
 
-	c.FileAttachment(`/tmp/`, "tmp.zip")
+	c.FileAttachment("/tmp/", "tmp.zip")
 }

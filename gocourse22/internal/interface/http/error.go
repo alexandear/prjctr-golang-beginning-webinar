@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
-	v10 "github.com/go-playground/validator/v10"
+	"github.com/go-playground/validator/v10"
 	"github.com/google/uuid"
 	"github.com/iancoleman/strcase"
 )
@@ -29,14 +29,14 @@ type ErrorResponse struct {
 	Message string              `json:"message"`
 }
 
-func toField(field v10.FieldError) string {
+func toField(field validator.FieldError) string {
 	var parts []string
 	for _, part := range strings.Split(field.StructNamespace(), ".")[1:] {
 		part = strcase.ToSnake(part)
 		func() { // separate fieldName[N] to fieldName and N
 			nested := fieldNestPattern.FindString(part)
-			if nested != `` {
-				part = strings.Replace(part, nested, ``, -1)
+			if nested != "" {
+				part = strings.Replace(part, nested, "", -1)
 				defer func() { parts = append(parts, nested[1:len(nested)-1]) }()
 			}
 			parts = append(parts, strcase.ToSnake(part))
@@ -47,7 +47,7 @@ func toField(field v10.FieldError) string {
 }
 
 func NewErrorResponse(c *gin.Context, err error) {
-	var ve v10.ValidationErrors
+	var ve validator.ValidationErrors
 
 	resp := &ErrorResponse{
 		Code:    0,

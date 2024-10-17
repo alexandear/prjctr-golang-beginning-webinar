@@ -16,8 +16,8 @@ func InstanceEnvFlag() cli.Flag {
 		Name:        InstanceEnv,
 		Usage:       "Instance Environment",
 		EnvVars:     []string{"ENV"},
-		Value:       `dev`,
-		DefaultText: `dev`,
+		Value:       "dev",
+		DefaultText: "dev",
 	}
 }
 
