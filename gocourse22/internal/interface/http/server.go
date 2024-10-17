@@ -34,8 +34,8 @@ func (s HTTP) Stop(ctx context.Context) error {
 }
 
 func (s HTTP) Shutdown() error {
-	ctx, cancelFunc := context.WithTimeout(context.Background(), s.shutdownTimeout)
-	defer cancelFunc()
+	ctx, cancel := context.WithTimeout(context.Background(), s.shutdownTimeout)
+	defer cancel()
 	return s.Stop(ctx)
 }
 

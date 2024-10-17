@@ -41,8 +41,8 @@ func Run() *cli.Command {
 			injector := do.DefaultInjector
 
 			// listen to os interrupt signals and close the context
-			ctx, cancelFunc := signal.NotifyContext(c.Context, syscall.SIGTERM, syscall.SIGINT, syscall.SIGKILL)
-			defer cancelFunc()
+			ctx, cancel := signal.NotifyContext(c.Context, syscall.SIGTERM, syscall.SIGINT, syscall.SIGKILL)
+			defer cancel()
 
 			ctx = extend.NewDelayedCancelContext(ctx, 5*time.Second)
 
