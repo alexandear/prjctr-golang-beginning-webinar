@@ -67,11 +67,11 @@ func muxStrategy(workers int, visitsResult map[int]int) {
 	var mutex sync.Mutex
 	var wg sync.WaitGroup
 
-	for i := 0; i < workers; i++ {
+	for i := range workers {
 		wg.Add(1)
 		go func(week int) {
 			defer wg.Done()
-			for j := 0; j < (visits / weeks); j++ {
+			for range visits / weeks {
 				mutex.Lock()
 				visitsResult[week]++
 				mutex.Unlock()
@@ -85,17 +85,17 @@ func muxStrategy(workers int, visitsResult map[int]int) {
 func chanStrategy(workers int, visitsResult map[int]int) {
 	results := make(chan map[int]int)
 
-	for i := 0; i < workers; i++ {
+	for i := range workers {
 		go func(week int) {
 			result := make(map[int]int)
-			for j := 0; j < (visits / weeks); j++ {
+			for range visits / weeks {
 				result[week]++
 			}
 			results <- result
 		}(i % weeks)
 	}
 
-	for i := 0; i < workers; i++ {
+	for range workers {
 		for week, count := range <-results {
 			visitsResult[week] += count
 		}
