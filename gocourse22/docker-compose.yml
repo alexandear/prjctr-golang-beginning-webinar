@@ -1,0 +1,15 @@
+version: "3.2"
+services:
+  postgres:
+    container_name: "main-db"
+    image: postgres:14-alpine
+    restart: "no"
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: gocourse22
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+    volumes:
+      - ./docker/postgres/init-scripts:/docker-entrypoint-initdb.d
+      - ./docker/postgres/storage:/var/lib/postgresql
