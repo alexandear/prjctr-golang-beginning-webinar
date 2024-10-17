@@ -8,21 +8,21 @@ import (
 	"prjctr.com/gocourse22/pkg/scheduler"
 )
 
-func CalculateEmployysBonuses(_ *do.Injector) *CalculateEmployys {
-	return &CalculateEmployys{}
+func GenerateEmployeeBonuses(_ *do.Injector) *CalculateEmployees {
+	return &CalculateEmployees{}
 }
 
-type CalculateEmployys struct{}
+type CalculateEmployees struct{}
 
-func (r *CalculateEmployys) TimeType() scheduler.TimeType {
+func (r *CalculateEmployees) TimeType() scheduler.TimeType {
 	return scheduler.Every
 }
 
-func (r *CalculateEmployys) Expression() string {
+func (r *CalculateEmployees) Expression() string {
 	return `1m`
 }
 
-func (r *CalculateEmployys) Operation(_ context.Context, inj *do.Injector) func() {
+func (r *CalculateEmployees) Operation(_ context.Context, inj *do.Injector) func() {
 	return func() {
 	}
 }

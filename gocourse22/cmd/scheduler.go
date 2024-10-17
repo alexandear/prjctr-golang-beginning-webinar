@@ -66,7 +66,7 @@ func Worker() *cli.Command {
 
 				if err := tasksScheduler.Manage(ctx,
 					tasks.NewComplicatedCalculation(injector),
-					tasks.CalculateEmployysBonuses(injector),
+					tasks.GenerateEmployeeBonuses(injector),
 				); !errors.Is(err, http.ErrServerClosed) {
 					log.Printf("Failed to manage tasks: %v\n", err)
 					return
