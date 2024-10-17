@@ -36,7 +36,7 @@ func toField(field validator.FieldError) string {
 		func() { // separate fieldName[N] to fieldName and N
 			nested := fieldNestPattern.FindString(part)
 			if nested != "" {
-				part = strings.Replace(part, nested, "", -1)
+				part = strings.ReplaceAll(part, nested, "")
 				defer func() { parts = append(parts, nested[1:len(nested)-1]) }()
 			}
 			parts = append(parts, strcase.ToSnake(part))
