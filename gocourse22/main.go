@@ -31,7 +31,7 @@ func init() {
 	runtime.SetBlockProfileRate(1)
 }
 
-// @title Clinics service
+// @title Clinics service.
 func main() {
 	// create injector from default injector
 	injector := do.DefaultInjector

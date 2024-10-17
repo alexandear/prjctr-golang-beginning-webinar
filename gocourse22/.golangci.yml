@@ -1,0 +1,101 @@
+# golangci-lint configuration file
+# see: https://golangci-lint.run/usage/configuration/
+
+# Options for analysis running.
+run:
+  timeout: 5m
+  issues-exit-code: 1
+  tests: true
+
+output:
+  formats:
+    - format: colored-line-number
+
+# Settings for enabling and disabling linters
+linters:
+  disable-all: true
+  enable:
+    - contextcheck
+    - dupword
+    - errcheck
+    - errchkjson
+    - gci
+    - godot
+    - gofumpt
+    - gosec
+    - gosimple
+    - govet
+    - ineffassign
+    - lll
+    - loggercheck
+    - mirror
+    - misspell
+    - musttag
+    - nilerr
+    - noctx
+    - nolintlint
+    - nosprintfhostport
+    - paralleltest
+    - perfsprint
+    - reassign
+    - revive
+    - rowserrcheck
+    - spancheck
+    - sqlclosecheck
+    - staticcheck
+    - stylecheck
+    - tenv
+    - testifylint
+    - thelper
+    - tparallel
+    - unconvert
+    - unused
+    - usestdlibvars
+    - wastedassign
+    - whitespace
+
+# Settings of specific linters
+linters-settings:
+  gci:
+    # gci is flexible alternative to goimports.
+    # To auto-fix imports, run `golangci-lint run --disable-all --enable=gci --fix`.
+    sections:
+      - standard
+      - default
+      - prefix(prjctr.com/gocourse22)
+  govet:
+    enable-all: true
+    disable:
+      - fieldalignment
+      - shadow
+  lll:
+    line-length: 130
+  misspell:
+    locale: US
+    extra-words:
+      # https://go.dev/wiki/Spelling
+      - typo: "cancelation"
+        correction: "cancellation"
+      - typo: "cancelled"
+        correction: "canceled"
+      - typo: "cancelling"
+        correction: "canceling"
+      - typo: "marshalling"
+        correction: "marshaling"
+      - typo: "marshalled"
+        correction: "marshaled"
+  revive:
+    enable-all-rules: false
+    rules:
+      - name: unexported-naming
+      - name: use-any # replace 'interface{}' with `any`
+      - name: var-naming
+  testifylint:
+    enable-all: true
+
+# Settings related to issues
+issues:
+  # Show all issues from a linter
+  max-issues-per-linter: 0
+  # Show all issues with the same text
+  max-same-issues: 0

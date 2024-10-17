@@ -7,7 +7,7 @@ import (
 
 // Item представляє одиницю даних у кеші.
 type Item struct {
-	Value      interface{}
+	Value      any
 	Expiration int64
 }
 
@@ -23,7 +23,7 @@ func NewCache() *Cache {
 
 // Set додає або оновлює значення в кеші з вказаним часом життя (TTL).
 // Якщо ttl == 0, елемент не буде мати часу закінчення.
-func (c *Cache) Set(key string, value interface{}, ttl time.Duration) {
+func (c *Cache) Set(key string, value any, ttl time.Duration) {
 	var expiration int64
 	if ttl > 0 {
 		expiration = time.Now().Add(ttl).UnixNano()
@@ -36,7 +36,7 @@ func (c *Cache) Set(key string, value interface{}, ttl time.Duration) {
 
 // Get отримує значення за ключем з кешу.
 // Повертає значення та true, якщо елемент знайдено і не прострочено.
-func (c *Cache) Get(key string) (interface{}, bool) {
+func (c *Cache) Get(key string) (any, bool) {
 	item, ok := c.items.Load(key)
 	if !ok {
 		return nil, false
@@ -57,7 +57,7 @@ func (c *Cache) Delete(key string) {
 // Size повертає кількість елементів в кеші.
 func (c *Cache) Size() int {
 	size := 0
-	c.items.Range(func(_, _ interface{}) bool {
+	c.items.Range(func(_, _ any) bool {
 		size++
 		return true
 	})

@@ -14,7 +14,6 @@ type DelayedCancelContext struct {
 	timer      *time.Timer
 	delay      time.Duration
 	doneChan   chan struct{}
-	err        error // Зберігає стан помилки контексту
 }
 
 func NewDelayedCancelContext(parent context.Context, delay time.Duration) *DelayedCancelContext {
@@ -56,7 +55,7 @@ func (d *DelayedCancelContext) Err() error {
 	}
 }
 
-func (d *DelayedCancelContext) Value(key interface{}) interface{} {
+func (d *DelayedCancelContext) Value(key any) any {
 	return d.parent.Value(key) // Передаємо виклик до батьківського контексту
 }
 

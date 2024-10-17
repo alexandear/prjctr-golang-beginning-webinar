@@ -2,7 +2,6 @@ package clinic
 
 import (
 	"context"
-	"fmt"
 	"sync"
 
 	"github.com/georgysavva/scany/v2/pgxscan"
@@ -52,7 +51,7 @@ func (s *Service) GroupPatientsVisits() []GroupedVisits {
 
 func (s *Service) GetAll(ctx context.Context) ([]Clinic, error) {
 	var res []Clinic
-	if err := pgxscan.Select(ctx, s.conn, &res, fmt.Sprintf("SELECT * FROM %s", tableName)); err != nil {
+	if err := pgxscan.Select(ctx, s.conn, &res, "SELECT * FROM "+tableName); err != nil {
 		return nil, err
 	}
 
@@ -63,7 +62,7 @@ func (s *Service) DeleteClinic() error {
 	return extend.NewFormattedError(1, "Clinic deletion is impossible", nil)
 }
 
-func muxStrategy(workers int, visitsResult map[int]int) {
+func muxStrategy(workers int, visitsResult map[int]int) { //nolint:unused
 	var mutex sync.Mutex
 	var wg sync.WaitGroup
 

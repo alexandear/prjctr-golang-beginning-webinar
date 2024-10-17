@@ -59,7 +59,8 @@ func NewErrorResponse(c *gin.Context, err error) {
 		resp.Message = "Got errors while validation"
 
 		for _, fieldErr := range ve {
-			resp.Errors[toField(fieldErr)] = append(resp.Errors[toField(fieldErr)], fmt.Sprintf("Field validation failed on the '%s' tag", fieldErr.ActualTag()))
+			resp.Errors[toField(fieldErr)] = append(resp.Errors[toField(fieldErr)],
+				fmt.Sprintf("Field validation failed on the '%s' tag", fieldErr.ActualTag()))
 		}
 
 		c.AbortWithStatusJSON(http.StatusBadRequest, resp)

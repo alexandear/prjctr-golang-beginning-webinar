@@ -17,7 +17,7 @@ import (
 	"prjctr.com/gocourse22/pkg/scheduler/tasks"
 )
 
-// Worker define the run command
+// Worker define the run command.
 func Worker() *cli.Command {
 	return &cli.Command{
 		Name:  "scheduler",

@@ -19,7 +19,7 @@ import (
 	"prjctr.com/gocourse22/pkg/extend"
 )
 
-// Run define the run command
+// Run define the run command.
 func Run() *cli.Command {
 	return &cli.Command{
 		Name:  "app",

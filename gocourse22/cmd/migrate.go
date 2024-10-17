@@ -59,6 +59,7 @@ func MigrateApply() *cli.Command {
 				return fmt.Errorf("initialize atlas client: %w", clientErr)
 			}
 
+			//nolint:nosprintfhostport
 			dsnURL := fmt.Sprintf(
 				"postgres://%s:%s@%s:%d/%s?search_path=public&sslmode=disable",
 				c.String(flag.PostgresUser),
