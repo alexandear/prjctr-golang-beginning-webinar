@@ -1,4 +1,4 @@
-module gocourse22
+module prjctr.com/gocourse22
 
 go 1.23.0
 

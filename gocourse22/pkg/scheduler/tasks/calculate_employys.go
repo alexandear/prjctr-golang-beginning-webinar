@@ -4,7 +4,8 @@ import (
 	"context"
 
 	"github.com/samber/do"
-	"gocourse22/pkg/scheduler"
+
+	"prjctr.com/gocourse22/pkg/scheduler"
 )
 
 func CalculateEmployysBonuses(_ *do.Injector) *CalculateEmployys {

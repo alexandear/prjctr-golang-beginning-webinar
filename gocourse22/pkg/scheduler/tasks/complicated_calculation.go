@@ -7,8 +7,9 @@ import (
 
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/samber/do"
-	"gocourse22/pkg/scheduler"
 	"golang.org/x/sync/errgroup"
+
+	"prjctr.com/gocourse22/pkg/scheduler"
 )
 
 func NewComplicatedCalculation(_ *do.Injector) *ComplicatedCalculation {

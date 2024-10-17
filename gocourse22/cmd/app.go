@@ -11,11 +11,12 @@ import (
 
 	"github.com/samber/do"
 	"github.com/urfave/cli/v2"
-	"gocourse22/cmd/flag"
-	"gocourse22/internal/domains/clinic"
-	appHttp "gocourse22/internal/interface/http"
-	common "gocourse22/internal/providers"
-	"gocourse22/pkg/extend"
+
+	"prjctr.com/gocourse22/cmd/flag"
+	"prjctr.com/gocourse22/internal/domains/clinic"
+	appHttp "prjctr.com/gocourse22/internal/interface/http"
+	common "prjctr.com/gocourse22/internal/providers"
+	"prjctr.com/gocourse22/pkg/extend"
 )
 
 // Run define the run command

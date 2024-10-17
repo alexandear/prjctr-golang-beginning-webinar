@@ -8,7 +8,8 @@ import (
 	"github.com/georgysavva/scany/v2/pgxscan"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/samber/do"
-	"gocourse22/pkg/extend"
+
+	"prjctr.com/gocourse22/pkg/extend"
 )
 
 const (

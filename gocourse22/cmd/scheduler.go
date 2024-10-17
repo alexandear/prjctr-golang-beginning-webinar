@@ -10,10 +10,11 @@ import (
 
 	"github.com/samber/do"
 	"github.com/urfave/cli/v2"
-	"gocourse22/cmd/flag"
-	"gocourse22/internal/providers"
-	"gocourse22/pkg/scheduler"
-	"gocourse22/pkg/scheduler/tasks"
+
+	"prjctr.com/gocourse22/cmd/flag"
+	"prjctr.com/gocourse22/internal/providers"
+	"prjctr.com/gocourse22/pkg/scheduler"
+	"prjctr.com/gocourse22/pkg/scheduler/tasks"
 )
 
 // Worker define the run command

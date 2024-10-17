@@ -7,7 +7,8 @@ import (
 
 	"github.com/samber/do"
 	"github.com/urfave/cli/v2"
-	"gocourse22/cmd/flag"
+
+	"prjctr.com/gocourse22/cmd/flag"
 )
 
 // HTTP is the http server

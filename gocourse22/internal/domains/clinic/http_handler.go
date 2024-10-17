@@ -7,7 +7,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/samber/do"
-	"gocourse22/internal/interface/http"
+
+	"prjctr.com/gocourse22/internal/interface/http"
 )
 
 func NewClinicHandler(inj *do.Injector) (*ClinicHandler, error) {

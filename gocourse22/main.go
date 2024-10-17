@@ -9,8 +9,9 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/samber/do"
 	"github.com/urfave/cli/v2"
-	"gocourse22/cmd"
-	"gocourse22/cmd/flag"
+
+	"prjctr.com/gocourse22/cmd"
+	"prjctr.com/gocourse22/cmd/flag"
 )
 
 var (
