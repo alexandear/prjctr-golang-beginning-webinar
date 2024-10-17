@@ -12,7 +12,7 @@
 
 // Principles:
 // Start goroutines whenever you have the concurrent work to do.
-// The goroutine should exit as soon as posible the work is done. This helps us
+// The goroutine should exit as soon as possible the work is done. This helps us
 // to clean up the resources and manage the lifetimes correctly.
 package main
 
@@ -26,7 +26,7 @@ func worker(id int, jobs <-chan int, results chan<- int) {
 	for j := range jobs {
 		fmt.Println("worker", id, "started job", j)
 		time.Sleep(time.Second)
-		fmt.Println("worker", id, "fnished job", j)
+		fmt.Println("worker", id, "finshed job", j)
 		results <- j * 2
 	}
 }
