@@ -56,8 +56,7 @@ func MigrateApply() *cli.Command {
 
 			client, clientErr := atlasexec.NewClient(".", c.String(flag.AtlasBin))
 			if clientErr != nil {
-				log.Fatalf("failed to initialize atlas client: %v", clientErr)
-				return clientErr
+				return fmt.Errorf("initialize atlas client: %w", clientErr)
 			}
 
 			dsnURL := fmt.Sprintf(
@@ -78,17 +77,16 @@ func MigrateApply() *cli.Command {
 
 			res, resErr := client.SchemaApply(c.Context, &applyParams)
 			if resErr != nil {
-				log.Fatalf("Failed to apply schema due to error: %v", resErr)
-				return resErr
+				return fmt.Errorf("apply schema: %w", resErr)
 			}
 
-			if res == nil {
-				log.Println("Applied 0 migrations")
-			} else {
-				log.Printf("Applied %d migrations", len(res.Changes.Applied))
+			var appliedCount int
+			if res != nil {
+				appliedCount = len(res.Changes.Applied)
 			}
+			log.Printf("Applied %d migrations", appliedCount)
 
-			return
+			return nil
 		},
 	}
 }
