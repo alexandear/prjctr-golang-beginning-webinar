@@ -7,20 +7,20 @@ import (
 )
 
 func incrementInt64Field(data any) {
-	// Використовуємо reflect для перевірки, чи є data структурою
+	// Use reflect to check if data is a struct
 	val := reflect.ValueOf(data)
 	if val.Kind() != reflect.Ptr || val.Elem().Kind() != reflect.Struct {
-		fmt.Println("Помилка: очікується покажчик на структуру")
+		fmt.Println("Error: expected a pointer to a struct")
 		return
 	}
 
-	// Ітеруємо через поля структури
+	// Iterate through the fields of the struct
 	val = val.Elem()
 	for i := 0; i < val.NumField(); i++ {
 		field := val.Field(i)
-		// Перевіряємо, чи поле є int64
+		// Check if the field is int64
 		if field.Kind() == reflect.Int64 {
-			// Використовуємо unsafe для зміни значення поля
+			// Use unsafe to change the value of the field
 			int64Ptr := (*int64)(unsafe.Pointer(val.Field(i).UnsafeAddr()))
 			*int64Ptr += 1
 		}
@@ -34,8 +34,8 @@ type MyStruct struct {
 
 func main() {
 	myStruct := MyStruct{Name: "test", Count: 10}
-	fmt.Println("До: ", myStruct)
+	fmt.Println("Before:", myStruct)
 
 	incrementInt64Field(&myStruct)
-	fmt.Println("Після: ", myStruct)
+	fmt.Println("After:", myStruct)
 }

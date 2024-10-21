@@ -16,6 +16,6 @@ double divide(int a, int b) {
     if (b != 0) {
         return (double)a / b;
     } else {
-        return 0.0; // Повертаємо 0.0 у випадку ділення на нуль
+        return 0.0;
     }
 }

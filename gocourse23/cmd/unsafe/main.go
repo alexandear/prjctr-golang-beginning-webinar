@@ -7,63 +7,63 @@ import (
 )
 
 type Person struct {
-	Maried            bool
+	Married           bool
 	Age               int32
-	BancAccountAmount float64
+	BankAccountAmount float64
 	Name              string
 	HasChildren       bool
 }
 
 func main() {
-	Smith := Person{Maried: true, Age: 32, BancAccountAmount: 6240.5, Name: "Smith"}
+	smith := Person{Married: true, Age: 32, BankAccountAmount: 6240.5, Name: "Smith"}
 
-	// Використання Sizeof для визначення розміру структури
-	fmt.Printf("Розмір структури Person: %d байтів\n", unsafe.Sizeof(Smith))
+	// Using Sizeof to determine the size of the structure
+	fmt.Printf("Size of Person structure: %d bytes\n", unsafe.Sizeof(smith))
 
-	// Використання Offsetof для визначення зміщення полів від початку структури
-	fmt.Printf("Зміщення поля Maried: %d, HasChildren: %d, Age: %d, BancAccountAmount: %d, Name: %d\n",
-		unsafe.Offsetof(Smith.Maried),
-		unsafe.Offsetof(Smith.HasChildren),
-		unsafe.Offsetof(Smith.Age),
-		unsafe.Offsetof(Smith.BancAccountAmount),
-		unsafe.Offsetof(Smith.Name),
+	// Using Offsetof to determine the offset of fields from the beginning of the structure
+	fmt.Printf("Offset of field Married: %d, HasChildren: %d, Age: %d, BankAccountAmount: %d, Name: %d\n",
+		unsafe.Offsetof(smith.Married),
+		unsafe.Offsetof(smith.HasChildren),
+		unsafe.Offsetof(smith.Age),
+		unsafe.Offsetof(smith.BankAccountAmount),
+		unsafe.Offsetof(smith.Name),
 	)
 
-	// Використання Alignof для визначення вирівнювання типів даних
-	fmt.Printf("Вирівнювання Maried: %d, HasChildren: %d, Age: %d, BancAccountAmount: %d, Name: %d\n",
-		unsafe.Alignof(Smith.Maried),
-		unsafe.Alignof(Smith.HasChildren),
-		unsafe.Alignof(Smith.Age),
-		unsafe.Alignof(Smith.BancAccountAmount),
-		unsafe.Alignof(Smith.Name),
+	// Using Alignof to determine the alignment of data types
+	fmt.Printf("Alignment of Married: %d, HasChildren: %d, Age: %d, BankAccountAmount: %d, Name: %d\n",
+		unsafe.Alignof(smith.Married),
+		unsafe.Alignof(smith.HasChildren),
+		unsafe.Alignof(smith.Age),
+		unsafe.Alignof(smith.BankAccountAmount),
+		unsafe.Alignof(smith.Name),
 	)
 
-	// Прямий доступ до поля за допомогою unsafe
-	int32Ptr := (*int32)(unsafe.Pointer(uintptr(unsafe.Pointer(&Smith)) + unsafe.Offsetof(Smith.Age)))
+	// Direct access to the field using unsafe
+	int32Ptr := (*int32)(unsafe.Pointer(uintptr(unsafe.Pointer(&smith)) + unsafe.Offsetof(smith.Age)))
 	*int32Ptr = 123
-	fmt.Printf("Змінене значення Age: %d\n", Smith.Age)
+	fmt.Printf("Modified value of Age: %d\n", smith.Age)
 
-	// Перетворення Pointer на *Person
-	examplePtr := (*Person)(unsafe.Pointer(&Smith))
-	examplePtr.BancAccountAmount = 1234567890
-	fmt.Printf("Змінене значення BancAccountAmount: %d\n", Smith.BancAccountAmount)
+	// Converting Pointer to *Person
+	examplePtr := (*Person)(unsafe.Pointer(&smith))
+	examplePtr.BankAccountAmount = 1234567890
+	fmt.Printf("Modified value of BankAccountAmount: %d\n", smith.BankAccountAmount)
 
 	bytes := []byte("Hello, world!")
 	str := BytesToString(bytes)
 	fmt.Println(str)
 }
 
-// BytesToString конвертує слайс байтів у рядок без додаткового копіювання пам'яті.
+// BytesToString converts a slice of bytes to a string without additional memory copying.
 func BytesToString(b []byte) string {
-	// Отримання SliceHeader, який описує слайс
+	// Getting SliceHeader, which describes the slice
 	var bh = (*reflect.SliceHeader)(unsafe.Pointer(&b))
 
-	// Створення StringHeader, який описує рядок
+	// Creating StringHeader, which describes the string
 	var sh = reflect.StringHeader{
-		Data: bh.Data, // використовуємо ту ж адресу даних
-		Len:  bh.Len,  // довжина слайса визначає довжину рядка
+		Data: bh.Data, // using the same data address
+		Len:  bh.Len,  // the length of the slice determines the length of the string
 	}
 
-	// Конвертація StringHeader назад у рядок без копіювання даних
+	// Converting StringHeader back to a string without copying data
 	return *(*string)(unsafe.Pointer(&sh))
 }
