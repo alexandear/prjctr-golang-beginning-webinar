@@ -45,7 +45,7 @@ func main() {
 	// Converting Pointer to *Person
 	examplePtr := (*Person)(unsafe.Pointer(&smith))
 	examplePtr.BankAccountAmount = 1234567890
-	fmt.Printf("Modified value of BankAccountAmount: %d\n", smith.BankAccountAmount)
+	fmt.Printf("Modified value of BankAccountAmount: %f\n", smith.BankAccountAmount)
 
 	bytes := []byte("Hello, world!")
 	str := BytesToString(bytes)
