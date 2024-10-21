@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"reflect"
 	"unsafe"
 )
 
@@ -55,15 +54,5 @@ func main() {
 
 // BytesToString converts a slice of bytes to a string without additional memory copying.
 func BytesToString(b []byte) string {
-	// Getting SliceHeader, which describes the slice
-	var bh = (*reflect.SliceHeader)(unsafe.Pointer(&b))
-
-	// Creating StringHeader, which describes the string
-	var sh = reflect.StringHeader{
-		Data: bh.Data, // using the same data address
-		Len:  bh.Len,  // the length of the slice determines the length of the string
-	}
-
-	// Converting StringHeader back to a string without copying data
-	return *(*string)(unsafe.Pointer(&sh))
+	return unsafe.String(unsafe.SliceData(b), len(b))
 }
